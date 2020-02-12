@@ -22,6 +22,8 @@ import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class RegistroGUI extends JFrame {
 	
@@ -34,11 +36,11 @@ public class RegistroGUI extends JFrame {
 	Connection con = conexion.conexion();
 	
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField textFieldApellido;
+	private JTextField textFieldNombre;
+	private JTextField textFieldEmail;
+	private JTextField textFieldTelefono;
+	private JTextField textFieldHabitacion;
 	private JTable table;
 
 	/**
@@ -69,38 +71,41 @@ public class RegistroGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblRegistro = new JLabel("Registro");
-		lblRegistro.setBounds(178, 13, 56, 16);
+		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegistro.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblRegistro.setBounds(156, 13, 111, 28);
 		contentPane.add(lblRegistro);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				//Insert();
 				Select();
 			}
 		});
 		btnGuardar.setBounds(277, 203, 97, 25);
 		contentPane.add(btnGuardar);
 		
-		textField = new JTextField();
-		textField.setBounds(139, 92, 235, 25);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textFieldApellido = new JTextField();
+		textFieldApellido.setBounds(139, 92, 235, 25);
+		contentPane.add(textFieldApellido);
+		textFieldApellido.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(139, 54, 235, 25);
-		contentPane.add(textField_1);
+		textFieldNombre = new JTextField();
+		textFieldNombre.setColumns(10);
+		textFieldNombre.setBounds(139, 54, 235, 25);
+		contentPane.add(textFieldNombre);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(139, 130, 235, 25);
-		contentPane.add(textField_2);
+		textFieldEmail = new JTextField();
+		textFieldEmail.setColumns(10);
+		textFieldEmail.setBounds(139, 130, 235, 25);
+		contentPane.add(textFieldEmail);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(139, 168, 235, 25);
-		contentPane.add(textField_3);
+		textFieldTelefono = new JTextField();
+		textFieldTelefono.setColumns(10);
+		textFieldTelefono.setBounds(139, 168, 235, 25);
+		contentPane.add(textFieldTelefono);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setBounds(35, 58, 56, 16);
@@ -114,26 +119,26 @@ public class RegistroGUI extends JFrame {
 		lblCorreoElectronico.setBounds(35, 134, 56, 16);
 		contentPane.add(lblCorreoElectronico);
 		
-		JLabel lblDireccion = new JLabel("Direccion:");
+		JLabel lblDireccion = new JLabel("Telefono:");
 		lblDireccion.setBounds(35, 172, 68, 16);
 		contentPane.add(lblDireccion);
 		
 		JLabel lblHabitacion = new JLabel("# Habitacion");
-		lblHabitacion.setBounds(35, 207, 68, 16);
+		lblHabitacion.setBounds(35, 207, 79, 16);
 		contentPane.add(lblHabitacion);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(139, 204, 61, 25);
-		contentPane.add(textField_4);
+		textFieldHabitacion = new JTextField();
+		textFieldHabitacion.setColumns(10);
+		textFieldHabitacion.setBounds(139, 204, 61, 25);
+		contentPane.add(textFieldHabitacion);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(240, 128, 128));
-		panel.setBounds(0, 0, 386, 315);
+		panel.setBounds(0, 0, 407, 315);
 		contentPane.add(panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(410, 28, 422, 256);
+		scrollPane.setBounds(422, 13, 475, 302);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -168,31 +173,46 @@ public class RegistroGUI extends JFrame {
 		
 	}
 	
+	public void Insert() {
+		
+		try {
+			String sentencia = "insert into Cliente value(?,?,?,?,?)";
+			PreparedStatement sql = con.prepareStatement(sentencia);
+			sql.setInt(1, Integer.parseInt(textFieldHabitacion.getText()));
+			sql.setString(2, textFieldNombre.getText());
+			sql.setString(3, textFieldApellido.getText());
+			sql.setString(4, textFieldEmail.getText());
+			sql.setString(5, textFieldTelefono.getText());
+			sql.execute();
+			System.out.println(""+sql.toString());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void Select() {
 		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		String[] registro = new String[7];
-		String sentencia = "select * from usuario";
+		model.setRowCount(0);
+		String[] registro = new String[5];
+		String sentencia = "select * from Cliente";
 		System.out.println("Entre");
 		
 		try {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(sentencia);
 			while (rs.next()) {
-				registro[0] = rs.getString("cedulaUsuario");
+				registro[0] = rs.getString("numH");
 				registro[1] = rs.getString("nombre");
 				registro[2] = rs.getString("apellido");
-				registro[3] = rs.getString("correoU");
-				registro[4] = rs.getString("telefonoU");
-				registro[5] = rs.getString("contrasenaU");
+				registro[3] = rs.getString("Email");
+				registro[4] = rs.getString("telefono");
 				System.out.println(registro[0].toString());
 				model.addRow(registro);
 			}
 			
 			System.out.println("Fin");
-					
-			/*PreparedStatement sql = con.prepareStatement(sentencia);
-			sql.execute();
-			System.out.println(""+sql.toString());*/
 		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

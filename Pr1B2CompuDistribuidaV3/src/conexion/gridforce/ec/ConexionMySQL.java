@@ -10,7 +10,7 @@ public class ConexionMySQL {
 	public Connection conexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3307/uber?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3307/rhth?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root", "");
 			if (!con.isClosed())
 				System.out.println("Successfully connected to MySQL server...");
 		} catch(Exception e) {

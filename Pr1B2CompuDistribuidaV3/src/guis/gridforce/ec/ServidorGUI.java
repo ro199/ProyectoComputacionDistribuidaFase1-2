@@ -7,6 +7,12 @@ import servidor.gridforce.ec.Servidor;
 
 import java.awt.EventQueue;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +22,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -38,6 +45,7 @@ public class ServidorGUI {
 	private ButtonGroup group;
 	private JScrollPane scrollTable;
 	int tiempo;
+	private boolean bandera = true;
 	private Servidor ser;
 	ConexionMySQL conexion = new ConexionMySQL();
 	Connection con = conexion.conexion();
@@ -191,20 +199,20 @@ public class ServidorGUI {
 			
 			System.out.println("Fuego en habitacion"+row[2]);
 			
-			/*String[] registro = new String[5];
-			String sentencia = "select * from Cliente";
+			String[] registro = new String[5];
+			String sentencia = "select Email from Cliente where numh="+row[2];
 			System.out.println("Entre");
 
 			try {
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery(sentencia);
 				while (rs.next()) {
-					registro[0] = rs.getString("numH");
-					registro[1] = rs.getString("nombre");
-					registro[2] = rs.getString("apellido");
-					registro[3] = rs.getString("Email");
-					registro[4] = rs.getString("telefono");
+					registro[0] = rs.getString("Email");
 					System.out.println(registro[0].toString());
+				}
+				if(bandera) {
+					enviarConGMail(registro[0], "Precaucion", "Se ha detectado humo en su habitacion");
+					bandera = false;
 				}
 
 				System.out.println("Fin");
@@ -213,7 +221,40 @@ public class ServidorGUI {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());
 				e.printStackTrace();
-			}*/
+			}
+		}else {
+			bandera = true;
 		}
+		
+	}
+	
+	private static void enviarConGMail(String destinatario, String asunto, String cuerpo) {
+	    // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
+	    String remitente = "syscotemp.gridforce.ec";  //Para la dirección nomcuenta@gmail.com
+
+	    Properties props = System.getProperties();
+	    props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
+	    props.put("mail.smtp.user", remitente);
+	    props.put("mail.smtp.clave", "syscotemp1234");    //La clave de la cuenta
+	    props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
+	    props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
+	    props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
+
+	    Session session = Session.getDefaultInstance(props);
+	    MimeMessage message = new MimeMessage(session);
+
+	    try {
+	        message.setFrom(new InternetAddress(remitente));
+	        message.addRecipients(Message.RecipientType.TO, destinatario);   //Se podrían añadir varios de la misma manera
+	        message.setSubject(asunto);
+	        message.setText(cuerpo);
+	        Transport transport = session.getTransport("smtp");
+	        transport.connect("smtp.gmail.com", remitente, "syscotemp1234");
+	        transport.sendMessage(message, message.getAllRecipients());
+	        transport.close();
+	    }
+	    catch (MessagingException me) {
+	        me.printStackTrace();   //Si se produce un error
+	    }
 	}
 }

@@ -30,8 +30,8 @@ public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
 	private static boolean isRunning = false;
     
 	public static void main(String args[]) {
-		try {
-			System.setProperty("java.rmi.server.hostname", "localhost");
+		try {	
+			System.setProperty("java.rmi.server.hostname", "192.168.43.64");
 			LocateRegistry.createRegistry(1104);
 			Naming.rebind("Prueba", new Servidor());
 			System.out.println("Servidor encendido");

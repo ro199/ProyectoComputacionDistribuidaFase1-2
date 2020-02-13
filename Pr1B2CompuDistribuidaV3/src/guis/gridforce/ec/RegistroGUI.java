@@ -87,7 +87,7 @@ public class RegistroGUI extends JFrame {
 		btnGuardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				Insert();
+				//Insert();
 				Select();
 			}
 		});

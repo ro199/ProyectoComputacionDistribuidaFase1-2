@@ -46,7 +46,7 @@ public class RegistroGUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -57,8 +57,15 @@ public class RegistroGUI extends JFrame {
 				}
 			}
 		});
+	}*/
+	public void run() {
+		try {
+			RegistroGUI frame = new RegistroGUI();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -80,7 +87,7 @@ public class RegistroGUI extends JFrame {
 		btnGuardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//Insert();
+				Insert();
 				Select();
 			}
 		});

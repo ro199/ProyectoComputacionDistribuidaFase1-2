@@ -11,7 +11,7 @@ public class HiloSensor implements Runnable {
     private static DatosSensor dh;
     static SensorToMonitor servidor = null;
     static Thread s;
-    private int n;
+    private static int n;
     private static boolean flag = false;
     private static ClientGUI cli;
     static boolean estadoAire = false;
@@ -38,7 +38,7 @@ public class HiloSensor implements Runnable {
     }
 
     public static void enviarDatostoServidor(){
-        dh = new DatosSensor(2, true,false,"OK");
+        dh = new DatosSensor(n, true,false,"OK");
         
         try {
             ClienteImp c = new ClienteImp();

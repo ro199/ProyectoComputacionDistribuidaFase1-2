@@ -8,6 +8,7 @@ import java.util.Calendar;
 import common.gridforce.ec.DatosSensor;
 import common.gridforce.ec.DatosTemperatura;
 import common.gridforce.ec.SensorToMonitor;
+import guis.gridforce.ec.RegistroGUI;
 import guis.gridforce.ec.ServidorGUI;
 
 public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
@@ -17,6 +18,7 @@ public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
 	 */
 	private static final long serialVersionUID = 1L;
 	private static ServidorGUI serverGUI;
+	private static RegistroGUI registroGUI;
 	private static String[] row;
 	private static String[] rowSmoke;
 	private static int tiempo = 0;
@@ -29,11 +31,13 @@ public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
     
 	public static void main(String args[]) {
 		try {
-			System.setProperty("java.rmi.server.hostname", "192.168.100.17");
-			LocateRegistry.createRegistry(1099);
+			System.setProperty("java.rmi.server.hostname", "localhost");
+			LocateRegistry.createRegistry(1104);
 			Naming.rebind("Prueba", new Servidor());
 			System.out.println("Servidor encendido");
 			serverGUI = new ServidorGUI();
+			registroGUI=new RegistroGUI();
+			registroGUI.run();
 		}catch (RemoteException e) {
             System.err.println("Error de comunicacion: " + e.toString());
             System.exit(1);
@@ -89,7 +93,7 @@ public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
         }else {
         	dh.setMsgHumo("Ok!");
         	System.out.println(dh.getMsgHumo());
-        	rowSmoke = new String[] {now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),dh.getMsgHumo()};
+        	rowSmoke = new String[] {now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),dh.getMsgHumo(),Integer.toString(dh.getNumHabitacion())};
             serverGUI.addRowWithDataSmoke(rowSmoke);
 		}
         

@@ -211,11 +211,11 @@ public class ServidorGUI {
 					System.out.println(registro[0].toString());
 				}
 				if(bandera) {
-					enviarConGMail(registro[0], "Precaucion", "Se ha detectado humo en su habitacion");
+					enviarConGMail(registro[0], "Precaucion", "Se ha detectado humo en su habitacion.\nTemperatura = "+row[3]+"\nRevise su habitacion por favor.");
+					enviarConGMail("bryanr_122@hotmail.com", "Precaucion", "Se ha detectado humo en la habitacion.\nTemperatura = "+row[3]+"\nRevise la habitacion por favor.");
 					bandera = false;
 				}
 
-				System.out.println("Fin");
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

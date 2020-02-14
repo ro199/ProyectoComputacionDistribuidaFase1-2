@@ -22,6 +22,7 @@ public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
 	private static String[] row;
 	private static String[] rowSmoke;
 	private static int tiempo = 0;
+	private static int temperatura = 0;
 
 	public Servidor() throws RemoteException {
 		super();
@@ -31,8 +32,8 @@ public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
     
 	public static void main(String args[]) {
 		try {	
-			System.setProperty("java.rmi.server.hostname", "192.168.43.64");
-			LocateRegistry.createRegistry(1104);
+			System.setProperty("java.rmi.server.hostname", "172.20.10.2");
+			LocateRegistry.createRegistry(1099);
 			Naming.rebind("Prueba", new Servidor());
 			System.out.println("Servidor encendido");
 			serverGUI = new ServidorGUI();
@@ -68,6 +69,7 @@ public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
 	public boolean prenderApagarAire(DatosTemperatura dh) throws RemoteException {
 		System.out.println("Estoy en el prender Apagar");
 		if(dh.getTemperatura() >= 25) {
+			temperatura = dh.getTemperatura();
 			System.out.println("Prendiendo aire acondicionado...");
 			return true;
 		}
@@ -88,12 +90,12 @@ public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
             dh.setMsgHumo("Danger!");
             System.out.println(dh.getMsgHumo());
             System.out.println("Apagando aire acondicionado...");
-            rowSmoke = new String[] {now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),dh.getMsgHumo()};
+            rowSmoke = new String[] {now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),dh.getMsgHumo(),Integer.toString(dh.getNumHabitacion()), Integer.toString(temperatura)};
             serverGUI.addRowWithDataSmoke(rowSmoke);
         }else {
         	dh.setMsgHumo("Ok!");
         	System.out.println(dh.getMsgHumo());
-        	rowSmoke = new String[] {now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),dh.getMsgHumo(),Integer.toString(dh.getNumHabitacion())};
+        	rowSmoke = new String[] {now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),dh.getMsgHumo(),Integer.toString(dh.getNumHabitacion()), Integer.toString(temperatura)};
             serverGUI.addRowWithDataSmoke(rowSmoke);
 		}
         

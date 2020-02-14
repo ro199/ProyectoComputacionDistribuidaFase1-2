@@ -88,7 +88,7 @@ public class Servidor extends UnicastRemoteObject implements SensorToMonitor{
             dh.setMsgHumo("Danger!");
             System.out.println(dh.getMsgHumo());
             System.out.println("Apagando aire acondicionado...");
-            rowSmoke = new String[] {now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),dh.getMsgHumo()};
+            rowSmoke = new String[] {now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),dh.getMsgHumo(),Integer.toString(dh.getNumHabitacion())};
             serverGUI.addRowWithDataSmoke(rowSmoke);
         }else {
         	dh.setMsgHumo("Ok!");

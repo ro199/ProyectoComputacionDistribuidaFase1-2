@@ -101,15 +101,19 @@ public class ClientGUI {
 			window.setVisible(false);
 			window.dispose();
 
-			String[] registro = new String[5];
-			String sentencia = "select * from Cliente where numH=1";
+			String[] registro = new String[1];
+			String sentencia = "select count(*) as cont from cliente where numH=1";
 
 			try {
 				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(sentencia);
-
-				if(rs.getFetchSize()==0) {
-					JOptionPane.showInternalMessageDialog(null, "Primero debe registrarse en el sistema.");
+				ResultSet rs = st.executeQuery(sentencia); 
+				while(rs.next()) {
+					registro[0] = rs.getString("cont"); 
+				}
+				
+				if(Integer.parseInt(registro[0])==0) {
+					System.out.println("asasd");
+					JOptionPane.showMessageDialog(null, "Primero debe registrarse en el sistema.");
 				}else {
 					initialize();
 					this.frame.setVisible(true);

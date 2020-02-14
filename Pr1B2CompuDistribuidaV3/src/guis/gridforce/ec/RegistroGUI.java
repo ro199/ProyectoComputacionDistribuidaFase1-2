@@ -193,7 +193,18 @@ public class RegistroGUI extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		limpiar();
+		
 
+	}
+	
+	public void limpiar() {
+		textFieldHabitacion.setText("");
+		textFieldNombre.setText("");
+		textFieldApellido.setText("");
+		textFieldTelefono.setText("");
+		textFieldEmail.setText("");
 	}
 
 	public void select() {

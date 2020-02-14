@@ -68,7 +68,7 @@ public class HiloTemperatura implements Runnable{
 	public static void enviarDatostoServidor(int temp){
 
 		boolean bandera = false;
-		dh = new DatosTemperatura(2, personaHabitacion, temp, estadoAire);
+		dh = new DatosTemperatura(1, personaHabitacion, temp, estadoAire);
 		try {
 			dh.setEstadoAire(estadoAire);
 			//servidor.comenzarSupervision(dh);

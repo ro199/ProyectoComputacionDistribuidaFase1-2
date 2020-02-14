@@ -25,7 +25,7 @@ public class Cliente extends Thread {
 	public static void main(String args[]) throws InterruptedException, UnknownHostException, RemoteException, MalformedURLException {
 		try {
 			System.out.println("Buscando el servidor... ");
-			servidor = (SensorToMonitor) Naming.lookup("rmi://localhost/Prueba");
+			servidor = (SensorToMonitor) Naming.lookup("rmi://172.20.10.2/Prueba");
 			clientGUI = new ClientGUI(new Cliente());
 			hiloTemp = new HiloTemperatura(servidor,clientGUI,2000);
 			hiloSens = new HiloSensor(servidor, 1,clientGUI);	

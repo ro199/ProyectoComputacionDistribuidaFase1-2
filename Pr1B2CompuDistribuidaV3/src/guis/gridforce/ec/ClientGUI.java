@@ -272,7 +272,7 @@ public class ClientGUI {
 		} else {
 			rdbtnAirConOff.setSelected(true);
 		}
-		lblRoomNumer.setText("Room number" + Integer.toString(dh.getNumHabitacion()));
+		lblRoomNumer.setText("Room number 1");
 		lblTemperatureValue.setText(Integer.toString(dh.getTemperatura()));
 		lblHourValue.setText(
 				now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE) + ":" + now.get(Calendar.SECOND));
@@ -283,7 +283,7 @@ public class ClientGUI {
 		if (dh.isEstadoHumo()) {
 			rdbtnAirConOff.setSelected(true);
 		}
-		lblRoomNumer.setText("Room number" + Integer.toString(dh.getNumHabitacion()));
+		lblRoomNumer.setText("Room number 1");
 		lblSmokeValue.setText(dh.getMsgHumo());
 		System.out.println(dh.getMsgHumo());
 	}
